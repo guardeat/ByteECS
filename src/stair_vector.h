@@ -118,6 +118,11 @@ namespace ByteC
 		}
 	};
 
+	inline size_t getArrayIndex(size_t index)
+	{
+		return static_cast<size_t>(std::bit_width(index + 2) - 2);
+	}
+
 	template<typename Type>
 	class StairIterator
 	{
@@ -139,13 +144,13 @@ namespace ByteC
 
 		Value& operator*()
 		{
-			size_t arrayIndex{ std::bit_width(index + 2) - 2 };
+			size_t arrayIndex{ getArrayIndex(index) };
 			return arrays[arrayIndex][index + 2 - (2ULL << arrayIndex)];
 		}
 
 		Pointer operator->()
 		{
-			size_t arrayIndex{ std::bit_width(index + 2) - 2 };
+			size_t arrayIndex{ getArrayIndex(index) };
 			return arrays[arrayIndex] + (index + 2 - (2ULL << arrayIndex));
 		}
 
@@ -253,13 +258,13 @@ namespace ByteC
 
 		Value& at(size_t index)
 		{
-			size_t arrayIndex{ std::bit_width(index + 2) - 2 };
+			size_t arrayIndex{ getArrayIndex(index) };
 			return arrays.at(arrayIndex)[index + 2 - (2ULL << arrayIndex)];
 		}
 
 		const Value& at(size_t index) const
 		{
-			size_t arrayIndex{ std::bit_width(index + 2) - 2 };
+			size_t arrayIndex{ getArrayIndex(index) };
 			return arrays.at(arrayIndex)[index + 2 - (2ULL << arrayIndex)];
 		}
 

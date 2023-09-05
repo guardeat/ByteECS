@@ -72,12 +72,22 @@ int main()
 	}
 	print(timer.time());
 
+	float sum{};
 	timer.start();
 	for (size_t i{ 1 }; i < 1E6 + 1; ++i)
 	{
-		//pool.destroyEntity(i);
+		sum += pool.getComponent<float>(i);
 	}
 	print(timer.time());
+
+	PoolView<float> poolView{pool};
+	timer.start();
+	for (auto [id,i]:poolView)
+	{
+		sum += i;
+	}
+	print(timer.time());
+	print(sum);
 
 	return 0;
 }
